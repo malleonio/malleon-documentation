@@ -12,20 +12,20 @@ Set up your app, capture replays, analyze errors and requests, and create automa
 
 ## Primary User Workflow
 If you want a step-by-step story from onboarding to debugging and testing, start here:
-- [docs/web-app/getting-started.md](docs/web-app/getting-started.md)
+- [web-app/getting-started.md](web-app/getting-started.md)
 Then jump to tests:
-- [docs/web-app/tests-and-alerts.md](docs/web-app/tests-and-alerts.md)
+- [web-app/tests-and-alerts.md](web-app/tests-and-alerts.md)
 
 ## Core Topics
 - Web app usage:
-  - [docs/web-app/replays-and-debugging.md](docs/web-app/replays-and-debugging.md)
-  - [docs/web-app/errors-and-logs.md](docs/web-app/errors-and-logs.md)
-  - [docs/web-app/requests-and-performance.md](docs/web-app/requests-and-performance.md)
-  - [docs/web-app/tests-and-alerts.md](docs/web-app/tests-and-alerts.md)
+  - [web-app/replays-and-debugging.md](web-app/replays-and-debugging.md)
+  - [web-app/errors-and-logs.md](web-app/errors-and-logs.md)
+  - [web-app/requests-and-performance.md](web-app/requests-and-performance.md)
+  - [web-app/tests-and-alerts.md](web-app/tests-and-alerts.md)
 - Tooling:
-  - [docs/sdk/replay-sdk.md](docs/sdk/replay-sdk.md)
-  - [docs/cli/replay-cli.md](docs/cli/replay-cli.md)
-  - [docs/test-runner/overview.md](docs/test-runner/overview.md)
+  - [sdk/replay-sdk.md](sdk/replay-sdk.md)
+  - [cli/replay-cli.md](cli/replay-cli.md)
+  - [test-runner/overview.md](test-runner/overview.md)
 
 ## Example Integrations (GitHub)
 - Angular: https://github.com/malleonio/malleon-example-angular

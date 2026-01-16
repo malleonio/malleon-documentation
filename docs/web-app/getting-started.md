@@ -28,7 +28,7 @@ You will need the **App ID** from the previous step.
 - Add user metadata and tags as needed.
 
 See the SDK guide for steps and examples:
-- [docs/sdk/replay-sdk.md](docs/sdk/replay-sdk.md)
+- [../sdk/replay-sdk.md](../sdk/replay-sdk.md)
 
 Example integrations:
 - Angular: https://github.com/malleonio/malleon-example-angular
@@ -44,7 +44,7 @@ Source maps turn minified stack traces into readable source file locations.
 3. Use Replay CLI to upload source maps.
 
 See the CLI guide:
-- [docs/cli/replay-cli.md](docs/cli/replay-cli.md)
+- [../cli/replay-cli.md](../cli/replay-cli.md)
 
 ## 6) Start Exploring Your Data
 Once users interact with your site, data will appear in:
@@ -54,7 +54,7 @@ Once users interact with your site, data will appear in:
 - **Requests** for API performance
 
 Next steps:
-- [docs/web-app/replays-and-debugging.md](docs/web-app/replays-and-debugging.md)
-- [docs/web-app/errors-and-logs.md](docs/web-app/errors-and-logs.md)
-- [docs/web-app/requests-and-performance.md](docs/web-app/requests-and-performance.md)
-- [docs/web-app/tests-and-alerts.md](docs/web-app/tests-and-alerts.md)
+- [replays-and-debugging.md](replays-and-debugging.md)
+- [errors-and-logs.md](errors-and-logs.md)
+- [requests-and-performance.md](requests-and-performance.md)
+- [tests-and-alerts.md](tests-and-alerts.md)
