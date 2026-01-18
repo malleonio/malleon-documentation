@@ -77,6 +77,12 @@ spec:
       labels:
         app: test-runner
     spec:
+      # Required: Image pull secret for ghcr.io authentication
+      # Create with: kubectl create secret docker-registry ghcr-secret \
+      #   --docker-server=ghcr.io --docker-username=malleonio \
+      #   --docker-password=YOUR_PAT_TOKEN -n test-runner
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: test-runner
           image: ghcr.io/malleonio/test-runner:latest

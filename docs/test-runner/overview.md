@@ -2,18 +2,30 @@
 
 The Test Runner executes Malleon test definitions in parallel. Deploy it in your infrastructure to run automated tests against your applications.
 
+## Getting Access
+
+The test runner image requires authentication to pull. Contact **support@malleon.io** to request access and receive your Personal Access Token (PAT).
+
 ## Quick Start
 
-Pull and run the test runner image:
+### 1. Authenticate with GitHub Container Registry
+
+Using your PAT provided by Malleon:
+
+```bash
+echo "YOUR_PAT_TOKEN" | docker login ghcr.io -u malleonio --password-stdin
+```
+
+### 2. Pull and Run
 
 ```bash
 # Pull the image
 docker pull ghcr.io/malleonio/test-runner:latest
 
-# Run with your JWT token (connects to https://malleon.io by default)
+# Run with your Malleon JWT token (connects to https://malleon.io by default)
 docker run -d \
   -p 9287:9287 \
-  -e TEST_RUNNER_JWT=your-jwt-token \
+  -e TEST_RUNNER_JWT=your-malleon-jwt-token \
   ghcr.io/malleonio/test-runner:latest
 
 # Verify it's running
@@ -30,8 +42,11 @@ For a complete setup with Selenium Grid, use the [docker-compose.example.yml](do
 # Download the example file
 curl -O https://raw.githubusercontent.com/malleonio/malleon-documentation/main/docs/test-runner/docker-compose.example.yml
 
-# Create .env file with your JWT
-echo "TEST_RUNNER_JWT=your-jwt-token" > .env
+# Log in to GitHub Container Registry (using your PAT from Malleon)
+echo "YOUR_PAT_TOKEN" | docker login ghcr.io -u malleonio --password-stdin
+
+# Create .env file with your Malleon JWT
+echo "TEST_RUNNER_JWT=your-malleon-jwt-token" > .env
 
 # Start all services
 docker-compose -f docker-compose.example.yml up -d
@@ -45,9 +60,16 @@ For Kubernetes deployments, use the [k8s-deployment.example.yaml](k8s-deployment
 # Create namespace
 kubectl create namespace test-runner
 
-# Create secret with your JWT
+# Create secret for GitHub Container Registry authentication (using your PAT from Malleon)
+kubectl create secret docker-registry ghcr-secret \
+  --docker-server=ghcr.io \
+  --docker-username=malleonio \
+  --docker-password=YOUR_PAT_TOKEN \
+  -n test-runner
+
+# Create secret with your Malleon JWT
 kubectl create secret generic test-runner-jwt \
-  --from-literal=jwt=your-jwt-token \
+  --from-literal=jwt=your-malleon-jwt-token \
   -n test-runner
 
 # Apply the deployment
@@ -76,6 +98,7 @@ kubectl apply -f k8s-deployment.example.yaml
 ## Before You Start
 
 You will need:
+- A **PAT** (Personal Access Token) from Malleon to pull the image - contact **support@malleon.io**
 - Your **App ID**
 - A **Test Runner JWT** generated in the Malleon web app
 - A **Replay ID** to use as the test context base (typically from a stable, fixed build)
@@ -144,3 +167,7 @@ Returns `OK` if healthy.
 - Start with low parallelism and increase as your runner capacity grows.
 - Use the Malleon web app to manage test definitions and contexts.
 - Pin to a specific image tag (e.g., `main-abc123`) for reproducible builds.
+
+## Support
+
+For questions or to request access, contact **support@malleon.io**.
