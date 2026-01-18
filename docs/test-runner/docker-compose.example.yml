@@ -1,0 +1,95 @@
+# Malleon Test Runner - Docker Compose Example
+# 
+# This example deploys the test runner with a Selenium Grid for browser automation.
+# 
+# Quick Start:
+#   1. Copy this file to your project directory
+#   2. Create a .env file with your TEST_RUNNER_JWT
+#   3. Run: docker-compose -f docker-compose.example.yml up -d
+#
+# For more information, see: https://github.com/malleonio/malleon-documentation/blob/main/docs/test-runner/overview.md
+
+version: '3.8'
+
+services:
+  # Selenium Hub - coordinates browser sessions
+  selenium-hub:
+    image: selenium/hub:latest
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    environment:
+      - GRID_MAX_SESSION=16
+      - GRID_BROWSER_TIMEOUT=300
+      - GRID_TIMEOUT=300
+    networks:
+      - test-network
+
+  # Chrome Node - runs browser tests
+  selenium-chrome:
+    image: selenium/node-chrome:latest
+    container_name: selenium-chrome
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    ports:
+      - "7900:7900"  # noVNC for debugging (optional)
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=5
+      - SE_START_XVFB=true
+      - SE_SCREEN_WIDTH=1920
+      - SE_SCREEN_HEIGHT=1080
+      - SE_SCREEN_DEPTH=24
+    networks:
+      - test-network
+
+  # Test Runner - executes Malleon tests
+  test-runner:
+    image: ghcr.io/malleonio/test-runner:latest
+    container_name: test-runner
+    ports:
+      - "9287:9287"
+    environment:
+      # REQUIRED: Your Malleon Test Runner JWT
+      # Generate this from: https://malleon.io > Test Definitions > Test Runner
+      - TEST_RUNNER_JWT=${TEST_RUNNER_JWT}
+      
+      # OPTIONAL: Malleon server URL (defaults to https://malleon.io)
+      # Uncomment to override:
+      # - REPLAY_SERVER_URL=https://malleon.io
+      
+      # OPTIONAL: Test runner configuration
+      - TEST_RUNNER_MODE=service
+      - SELENIUM_GRID_URL=http://selenium-hub:4444
+      - SELENIUM_GRID_ENABLED=true
+      - APP_SERVER_HOST=test-runner
+      
+      # OPTIONAL: JVM and logging
+      - JAVA_OPTS=-Xmx2g -XX:+UseG1GC
+      - LOG_LEVEL=INFO
+    depends_on:
+      - selenium-hub
+      - selenium-chrome
+    networks:
+      - test-network
+    volumes:
+      - test-results:/app/results
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9287/api/test-runner/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  test-network:
+    driver: bridge
+
+volumes:
+  test-results:
+    driver: local

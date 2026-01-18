@@ -1,0 +1,192 @@
+# Malleon Test Runner - Kubernetes Deployment Example
+#
+# This example deploys the test runner to Kubernetes.
+# Prerequisites:
+#   - A Selenium Grid (deploy separately or use an external grid)
+#   - A Malleon Test Runner JWT token
+#
+# Quick Start:
+#   1. Create the namespace: kubectl create namespace test-runner
+#   2. Create the secret: kubectl create secret generic test-runner-jwt \
+#        --from-literal=jwt=YOUR_JWT_TOKEN -n test-runner
+#   3. Apply this manifest: kubectl apply -f k8s-deployment.example.yaml
+#
+# For more information, see: https://docs.malleon.io/test-runner
+
+---
+# Namespace (optional - remove if using existing namespace)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test-runner
+
+---
+# Secret for Test Runner JWT
+# Create with: kubectl create secret generic test-runner-jwt --from-literal=jwt=YOUR_JWT_TOKEN -n test-runner
+# Or uncomment and fill in the base64-encoded JWT below:
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: test-runner-jwt
+#   namespace: test-runner
+# type: Opaque
+# data:
+#   jwt: <base64-encoded-jwt>
+
+---
+# ConfigMap for optional configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-runner-config
+  namespace: test-runner
+data:
+  # Malleon server URL (defaults to https://malleon.io)
+  REPLAY_SERVER_URL: "https://malleon.io"
+  
+  # Test runner configuration
+  TEST_RUNNER_MODE: "service"
+  
+  # Selenium Grid URL - update to match your Selenium Grid deployment
+  SELENIUM_GRID_URL: "http://selenium-hub:4444"
+  SELENIUM_GRID_ENABLED: "true"
+  
+  # App server hostname - should match the service name
+  APP_SERVER_HOST: "test-runner"
+  
+  # JVM and logging
+  JAVA_OPTS: "-Xmx2g -XX:+UseG1GC"
+  LOG_LEVEL: "INFO"
+
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-runner
+  namespace: test-runner
+  labels:
+    app: test-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-runner
+  template:
+    metadata:
+      labels:
+        app: test-runner
+    spec:
+      containers:
+        - name: test-runner
+          image: ghcr.io/malleonio/test-runner:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9287
+              name: http
+          env:
+            # Required: JWT from secret
+            - name: TEST_RUNNER_JWT
+              valueFrom:
+                secretKeyRef:
+                  name: test-runner-jwt
+                  key: jwt
+            # Optional: Configuration from ConfigMap
+            - name: REPLAY_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: test-runner-config
+                  key: REPLAY_SERVER_URL
+            - name: TEST_RUNNER_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: test-runner-config
+                  key: TEST_RUNNER_MODE
+            - name: SELENIUM_GRID_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: test-runner-config
+                  key: SELENIUM_GRID_URL
+            - name: SELENIUM_GRID_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: test-runner-config
+                  key: SELENIUM_GRID_ENABLED
+            - name: APP_SERVER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: test-runner-config
+                  key: APP_SERVER_HOST
+            - name: JAVA_OPTS
+              valueFrom:
+                configMapKeyRef:
+                  name: test-runner-config
+                  key: JAVA_OPTS
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: test-runner-config
+                  key: LOG_LEVEL
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "3Gi"
+              cpu: "2000m"
+          livenessProbe:
+            httpGet:
+              path: /api/test-runner/health
+              port: 9287
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/test-runner/health
+              port: 9287
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-runner
+  namespace: test-runner
+  labels:
+    app: test-runner
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9287
+      targetPort: 9287
+      protocol: TCP
+      name: http
+  selector:
+    app: test-runner
+
+---
+# Optional: Ingress (uncomment and configure for external access)
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: test-runner
+#   namespace: test-runner
+#   annotations:
+#     # Add your ingress controller annotations here
+#     # Example for nginx: kubernetes.io/ingress.class: nginx
+# spec:
+#   rules:
+#     - host: test-runner.your-domain.com
+#       http:
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: test-runner
+#                 port:
+#                   number: 9287
