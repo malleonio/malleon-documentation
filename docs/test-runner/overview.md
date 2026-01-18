@@ -15,6 +15,13 @@ You will need:
 4. Create a token and generate a JWT.
 5. Store the JWT securely.
 
+### Authentication
+The test runner supports two authentication methods:
+- **Environment variable** (recommended): Set `TEST_RUNNER_JWT` when deploying the runner. The JWT will be used automatically for all API calls.
+- **Request header**: Include `Authorization: Bearer YOUR_TEST_RUNNER_JWT` in each request. This is only needed if `TEST_RUNNER_JWT` is not configured.
+
+If both are provided, the environment variable takes precedence.
+
 ## Run Tests in Parallel
 The runner accepts a **parallelism** setting:
 - `1` = sequential (one test at a time)
@@ -23,6 +30,15 @@ The runner accepts a **parallelism** setting:
 
 ### Example Request
 Replace `RUNNER_URL` with your runner address.
+
+If `TEST_RUNNER_JWT` is configured (recommended):
+```bash
+curl -X POST "RUNNER_URL/api/test-runner/run?appId=YOUR_APP_ID&contextReplayId=YOUR_REPLAY_ID&parallelism=5" \
+  -H "Content-Type: application/json" \
+  -d '{ "pageNum": 1, "pageSize": 100, "searchRequest": {} }'
+```
+
+If `TEST_RUNNER_JWT` is not configured, include the Authorization header:
 ```bash
 curl -X POST "RUNNER_URL/api/test-runner/run?appId=YOUR_APP_ID&contextReplayId=YOUR_REPLAY_ID&parallelism=5" \
   -H "Content-Type: application/json" \
