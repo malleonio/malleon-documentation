@@ -31,7 +31,7 @@ Group requests by service and URL pattern to identify hot spots:
 
 **Bottleneck filters** help focus on slow, frequent endpoints:
 - Min response time
-- Min requests per hour
+- Min count
 
 ### Time Series
 Compare performance trends over time:
