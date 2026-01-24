@@ -2,8 +2,9 @@
 #
 # This example deploys the test runner to Kubernetes.
 # Prerequisites:
-#   - A Selenium Grid (deploy separately or use an external grid)
 #   - A Malleon Test Runner JWT token
+#   - (Optional) A Selenium Grid for headful tests (deploy separately or use an external grid)
+#     Note: Headless tests use local Chrome and do not require Selenium Grid
 #
 # Quick Start:
 #   1. Create the namespace: kubectl create namespace test-runner
@@ -47,7 +48,8 @@ data:
   # Test runner configuration
   TEST_RUNNER_MODE: "service"
   
-  # Selenium Grid URL - update to match your Selenium Grid deployment
+  # Selenium Grid configuration (only needed for headful/visual tests)
+  # Headless tests use local Chrome and do not require Selenium Grid
   SELENIUM_GRID_URL: "http://selenium-hub:4444"
   SELENIUM_GRID_ENABLED: "true"
   

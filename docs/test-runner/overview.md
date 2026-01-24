@@ -36,7 +36,7 @@ curl http://localhost:9287/api/test-runner/health
 
 ### Docker Compose
 
-For a complete setup with Selenium Grid, use the [docker-compose.example.yml](docker-compose.example.yml):
+For a complete setup with Selenium Grid (optional, only needed for headful tests), use the [docker-compose.example.yml](docker-compose.example.yml):
 
 ```bash
 # Download the example file
@@ -76,7 +76,7 @@ kubectl create secret generic test-runner-jwt \
 kubectl apply -f k8s-deployment.example.yaml
 ```
 
-**Note**: You'll need a Selenium Grid deployed separately for browser automation.
+**Note**: Selenium Grid is **optional** and only needed for headful/visual tests. Headless tests automatically use local Chrome and do not require Selenium Grid. If you only run headless tests, you can set `SELENIUM_GRID_ENABLED=false` to simplify deployment.
 
 ## Configuration
 
@@ -87,8 +87,8 @@ kubectl apply -f k8s-deployment.example.yaml
 | `TEST_RUNNER_JWT` | **Yes** | - | JWT token generated from Malleon |
 | `REPLAY_SERVER_URL` | No | `https://malleon.io` | Malleon server URL |
 | `TEST_RUNNER_MODE` | No | `service` | Mode: `service` or `single-test` |
-| `SELENIUM_GRID_URL` | No | `http://selenium-hub:4444` | Selenium Grid URL |
-| `SELENIUM_GRID_ENABLED` | No | `true` | Enable Selenium Grid |
+| `SELENIUM_GRID_URL` | No | `http://selenium-hub:4444` | Selenium Grid URL (only needed for headful tests) |
+| `SELENIUM_GRID_ENABLED` | No | `true` | Enable Selenium Grid (only needed for headful tests) |
 | `APP_SERVER_HOST` | No | `test-runner` | Hostname for browser access |
 | `JAVA_OPTS` | No | `-Xmx2g -XX:+UseG1GC` | JVM options |
 | `LOG_LEVEL` | No | `INFO` | Logging level |

@@ -1,6 +1,7 @@
 # Malleon Test Runner - Docker Compose Example
 # 
-# This example deploys the test runner with a Selenium Grid for browser automation.
+# This example deploys the test runner with a Selenium Grid for headful/visual tests.
+# Note: Selenium Grid is optional - headless tests use local Chrome and do not require Selenium Grid.
 # 
 # Prerequisites:
 #   - A PAT (Personal Access Token) from Malleon to pull the image
