@@ -13,20 +13,20 @@ The test runner image requires authentication to pull. Contact **support@malleon
 Using your PAT provided by Malleon:
 
 ```bash
-echo "YOUR_PAT_TOKEN" | docker login ghcr.io -u malleonio --password-stdin
+echo "YOUR_PAT_TOKEN" | docker login ghcr.io -u malleonsupport --password-stdin
 ```
 
 ### 2. Pull and Run
 
 ```bash
 # Pull the image
-docker pull ghcr.io/malleonio/test-runner:latest
+docker pull ghcr.io/malleonsupport/test-runner:latest
 
 # Run with your Malleon JWT token (connects to https://malleon.io by default)
 docker run -d \
   -p 9287:9287 \
   -e TEST_RUNNER_JWT=your-malleon-jwt-token \
-  ghcr.io/malleonio/test-runner:latest
+  ghcr.io/malleonsupport/test-runner:latest
 
 # Verify it's running
 curl http://localhost:9287/api/test-runner/health
@@ -43,7 +43,7 @@ For a complete setup with Selenium Grid (optional, only needed for headful tests
 curl -O https://raw.githubusercontent.com/malleonio/malleon-documentation/main/docs/test-runner/docker-compose.example.yml
 
 # Log in to GitHub Container Registry (using your PAT from Malleon)
-echo "YOUR_PAT_TOKEN" | docker login ghcr.io -u malleonio --password-stdin
+echo "YOUR_PAT_TOKEN" | docker login ghcr.io -u malleonsupport --password-stdin
 
 # Create .env file with your Malleon JWT
 echo "TEST_RUNNER_JWT=your-malleon-jwt-token" > .env
@@ -63,7 +63,7 @@ kubectl create namespace test-runner
 # Create secret for GitHub Container Registry authentication (using your PAT from Malleon)
 kubectl create secret docker-registry ghcr-secret \
   --docker-server=ghcr.io \
-  --docker-username=malleonio \
+  --docker-username=malleonsupport \
   --docker-password=YOUR_PAT_TOKEN \
   -n test-runner
 

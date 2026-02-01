@@ -10,7 +10,7 @@
 # Quick Start:
 #   1. Copy this file to your project directory
 #   2. Log in to GitHub Container Registry:
-#      echo "YOUR_PAT_TOKEN" | docker login ghcr.io -u malleonio --password-stdin
+#      echo "YOUR_PAT_TOKEN" | docker login ghcr.io -u malleonsupport --password-stdin
 #   3. Create a .env file with your Malleon JWT:
 #      echo "TEST_RUNNER_JWT=your-malleon-jwt-token" > .env
 #   4. Run: docker-compose -f docker-compose.example.yml up -d
@@ -58,7 +58,7 @@ services:
 
   # Test Runner - executes Malleon tests
   test-runner:
-    image: ghcr.io/malleonio/test-runner:latest
+    image: ghcr.io/malleonsupport/test-runner:latest
     container_name: test-runner
     ports:
       - "9287:9287"

@@ -81,13 +81,13 @@ spec:
     spec:
       # Required: Image pull secret for ghcr.io authentication
       # Create with: kubectl create secret docker-registry ghcr-secret \
-      #   --docker-server=ghcr.io --docker-username=malleonio \
+      #   --docker-server=ghcr.io --docker-username=malleonsupport \
       #   --docker-password=YOUR_PAT_TOKEN -n test-runner
       imagePullSecrets:
         - name: ghcr-secret
       containers:
         - name: test-runner
-          image: ghcr.io/malleonio/test-runner:latest
+          image: ghcr.io/malleonsupport/test-runner:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 9287
