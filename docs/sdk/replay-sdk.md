@@ -25,7 +25,7 @@ When loading the Replay SDK via a script tag (using `replay.umd.js`), the librar
 Add query parameters to your script `src` attribute:
 
 ```html
-<script src="https://malleon.io/assets/replay.umd.js?appId=your-app-id&release=1.0.0&dist=production"></script> (or your CDN)
+<script src="https://malleon.io/assets/replay.umd.js?appId=your-app-id&release=1.0.0&dist=production"></script>
 ```
 
 | Parameter | Description |
@@ -38,7 +38,7 @@ Add query parameters to your script `src` attribute:
 Example: skip auto-init and manually initialize later:
 
 ```html
-<script src="https://malleon.io/assets/replay.umd.js?skipReplayAutoInit"></script> (or your CDN)
+<script src="https://malleon.io/assets/replay.umd.js?skipReplayAutoInit"></script>
 <script>
   // Your code sets appId when ready, then:
   window.waitForAppIdAndInitReplay();  // polls until appId found, then inits
@@ -68,7 +68,7 @@ Example: set before the script loads for late-binding of appId:
   window.__replay__release = '1.0.0';
   window.__replay__dist = 'production';
 </script>
-<script src="https://malleon.io/assets/replay.umd.js"></script> (or your CDN)
+<script src="https://malleon.io/assets/replay.umd.js"></script>
 ```
 
 ## Add User Metadata

@@ -12,7 +12,7 @@
 #        --from-literal=jwt=YOUR_JWT_TOKEN -n test-runner
 #   3. Apply this manifest: kubectl apply -f k8s-deployment.example.yaml
 #
-# For more information, see: https://docs.malleon.io/test-runner
+# For more information, see: https://github.com/malleonio/malleon-documentation/blob/main/docs/test-runner/overview.md
 
 ---
 # Namespace (optional - remove if using existing namespace)
