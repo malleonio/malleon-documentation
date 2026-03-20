@@ -2,6 +2,8 @@
 
 Welcome to the Malleon documentation. These guides focus on practical, functional use cases for the web app and tooling.
 
+**Malleon:** [malleon.io](https://malleon.io) (live app) — [Replay SDK on npm](https://www.npmjs.com/package/@malleon/replay) — [Replay CLI on npm](https://www.npmjs.com/package/@malleon/replay-cli)
+
 ## Start Here
 - Overview and navigation: [docs/index.md](docs/index.md)
 - Web app workflow: [docs/web-app/getting-started.md](docs/web-app/getting-started.md)
