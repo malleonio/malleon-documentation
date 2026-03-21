@@ -126,6 +126,8 @@ The runner accepts a **parallelism** setting:
 - `> 1` = fixed number of concurrent tests
 - `0` = unlimited (all tests at once)
 
+You can also pass **`maxDelayMs`** to cap the inter-event replay delay. By default (`0`), events are replayed with the original recorded timing. Set a value like `200` to cap delays at 200ms for faster test runs when timing fidelity isn't important.
+
 ### Example Request
 
 Replace `RUNNER_URL` with your runner address (e.g., `http://localhost:9287`).
@@ -133,6 +135,13 @@ Replace `RUNNER_URL` with your runner address (e.g., `http://localhost:9287`).
 If `TEST_RUNNER_JWT` is configured (recommended):
 ```bash
 curl -X POST "RUNNER_URL/api/test-runner/run?appId=YOUR_APP_ID&contextReplayId=YOUR_REPLAY_ID&parallelism=5" \
+  -H "Content-Type: application/json" \
+  -d '{ "pageNum": 1, "pageSize": 100, "searchRequest": {} }'
+```
+
+With fast mode (cap delays to 200ms):
+```bash
+curl -X POST "RUNNER_URL/api/test-runner/run?appId=YOUR_APP_ID&contextReplayId=YOUR_REPLAY_ID&parallelism=5&maxDelayMs=200" \
   -H "Content-Type: application/json" \
   -d '{ "pageNum": 1, "pageSize": 100, "searchRequest": {} }'
 ```
