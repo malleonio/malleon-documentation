@@ -26,6 +26,7 @@ Then jump to tests:
   - [sdk/replay-sdk.md](sdk/replay-sdk.md)
   - [cli/replay-cli.md](cli/replay-cli.md)
   - [test-runner/overview.md](test-runner/overview.md)
+  - [mcp/overview.md](mcp/overview.md)
 
 ## Example Integrations (GitHub)
 - Angular: https://github.com/malleonio/malleon-example-angular
