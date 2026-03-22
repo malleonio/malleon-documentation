@@ -48,6 +48,7 @@ Add to your project’s `.cursor/mcp.json`:
 
 ## What agents can do
 
+- **`find_healthy_sessions`** — Recent sessions with no errors and decent activity (regression-test candidates)
 - **`list_errors`** — Recent or frequent errors with replay IDs
 - **`diagnose_replay`** — Stack traces, console logs, DOM context, and request summaries for a replay
 - **`create_reference_replay`** — Upload a build output directory as a reference replay for comparison
